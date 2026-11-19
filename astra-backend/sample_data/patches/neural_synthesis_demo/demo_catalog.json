@@ -1,0 +1,118 @@
+{
+  "model_type": "DirectSynthesisUNet (High-Fidelity Conditional Generative U-Net)",
+  "trained_epochs": 8,
+  "best_epoch": 8,
+  "best_val_loss": 0.08885,
+  "loss_formula": "0.85 * (0.75 L1 + 0.25 (1 - SSIM)) + 0.15 * SobelEdgeLoss",
+  "parameters": 1927297,
+  "samples": [
+    {
+      "id": "demo_patch_00_2024-01-15_00_patch_000",
+      "triplet_id": "2024-01-15_00",
+      "patch_name": "Cloud ROI #1: Cyclone Circulation Eyewall",
+      "metrics": {
+        "mse": 95.5589,
+        "psnr_db": 28.33,
+        "ssim": 0.8046,
+        "mae": 7.0208
+      },
+      "files": {
+        "t0": "demo_patch_00_2024-01-15_00_patch_000_t0.png",
+        "t1": "demo_patch_00_2024-01-15_00_patch_000_t1.png",
+        "gt": "demo_patch_00_2024-01-15_00_patch_000_gt.png",
+        "synth": "demo_patch_00_2024-01-15_00_patch_000_synth.png",
+        "residual": "demo_patch_00_2024-01-15_00_patch_000_residual.png"
+      }
+    },
+    {
+      "id": "demo_patch_01_2024-03-15_18_patch_002",
+      "triplet_id": "2024-03-15_18",
+      "patch_name": "Cloud ROI #2: Severe Explosive Convective Anvil",
+      "metrics": {
+        "mse": 203.6098,
+        "psnr_db": 25.04,
+        "ssim": 0.744,
+        "mae": 10.6899
+      },
+      "files": {
+        "t0": "demo_patch_01_2024-03-15_18_patch_002_t0.png",
+        "t1": "demo_patch_01_2024-03-15_18_patch_002_t1.png",
+        "gt": "demo_patch_01_2024-03-15_18_patch_002_gt.png",
+        "synth": "demo_patch_01_2024-03-15_18_patch_002_synth.png",
+        "residual": "demo_patch_01_2024-03-15_18_patch_002_residual.png"
+      }
+    },
+    {
+      "id": "demo_patch_02_2024-06-15_18_patch_001",
+      "triplet_id": "2024-06-15_18",
+      "patch_name": "Cloud ROI #3: Synoptic Jet Streak Cirrus Band",
+      "metrics": {
+        "mse": 158.3836,
+        "psnr_db": 26.13,
+        "ssim": 0.7676,
+        "mae": 8.4464
+      },
+      "files": {
+        "t0": "demo_patch_02_2024-06-15_18_patch_001_t0.png",
+        "t1": "demo_patch_02_2024-06-15_18_patch_001_t1.png",
+        "gt": "demo_patch_02_2024-06-15_18_patch_001_gt.png",
+        "synth": "demo_patch_02_2024-06-15_18_patch_001_synth.png",
+        "residual": "demo_patch_02_2024-06-15_18_patch_001_residual.png"
+      }
+    },
+    {
+      "id": "demo_patch_03_2024-08-15_21_patch_003",
+      "triplet_id": "2024-08-15_21",
+      "patch_name": "Cloud ROI #4: Cold Cloud-Top Radiance Core",
+      "metrics": {
+        "mse": 62.8978,
+        "psnr_db": 30.14,
+        "ssim": 0.8836,
+        "mae": 5.5004
+      },
+      "files": {
+        "t0": "demo_patch_03_2024-08-15_21_patch_003_t0.png",
+        "t1": "demo_patch_03_2024-08-15_21_patch_003_t1.png",
+        "gt": "demo_patch_03_2024-08-15_21_patch_003_gt.png",
+        "synth": "demo_patch_03_2024-08-15_21_patch_003_synth.png",
+        "residual": "demo_patch_03_2024-08-15_21_patch_003_residual.png"
+      }
+    },
+    {
+      "id": "demo_patch_04_2024-09-15_12_patch_004",
+      "triplet_id": "2024-09-15_12",
+      "patch_name": "Cloud ROI #5: Mesoscale Frontal Shear Boundary",
+      "metrics": {
+        "mse": 477.9182,
+        "psnr_db": 21.34,
+        "ssim": 0.6061,
+        "mae": 16.9211
+      },
+      "files": {
+        "t0": "demo_patch_04_2024-09-15_12_patch_004_t0.png",
+        "t1": "demo_patch_04_2024-09-15_12_patch_004_t1.png",
+        "gt": "demo_patch_04_2024-09-15_12_patch_004_gt.png",
+        "synth": "demo_patch_04_2024-09-15_12_patch_004_synth.png",
+        "residual": "demo_patch_04_2024-09-15_12_patch_004_residual.png"
+      }
+    },
+    {
+      "id": "demo_patch_05_2024-10-15_06_patch_001",
+      "triplet_id": "2024-10-15_06",
+      "patch_name": "Cloud ROI #6: Diurnal Marine Boundary Layer",
+      "metrics": {
+        "mse": 144.5857,
+        "psnr_db": 26.53,
+        "ssim": 0.8371,
+        "mae": 7.7621
+      },
+      "files": {
+        "t0": "demo_patch_05_2024-10-15_06_patch_001_t0.png",
+        "t1": "demo_patch_05_2024-10-15_06_patch_001_t1.png",
+        "gt": "demo_patch_05_2024-10-15_06_patch_001_gt.png",
+        "synth": "demo_patch_05_2024-10-15_06_patch_001_synth.png",
+        "residual": "demo_patch_05_2024-10-15_06_patch_001_residual.png"
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+# ==============================================================================
+# File: requirements.txt
+# Purpose: Defines project dependencies for the ASTRA backend service.
+#
+# Packages:
+# - fastapi: Modern, fast (high-performance) web framework for building APIs.
+# - uvicorn: Lightning-fast ASGI server implementation for running FastAPI apps.
+# - numpy: Core scientific computing package for multi-dimensional array operations.
+# - opencv-python: Computer vision and image processing library.
+# - scikit-image: Collection of algorithms for advanced image processing.
+# - netCDF4: Interface to the netCDF version 4 library for scientific/satellite data.
+# - s3fs: Pythonic file interface to AWS S3 (useful for accessing cloud satellite datasets).
+# - matplotlib: Comprehensive library for creating static, animated, and interactive visualizations.
+# - xarray: N-D labeled arrays and datasets tailored for multidimensional scientific data.
+# ==============================================================================
+
+fastapi
+uvicorn[standard]
+numpy
+opencv-python
+scikit-image
+netCDF4
+s3fs
+matplotlib
+xarray
+torch
+torchvision

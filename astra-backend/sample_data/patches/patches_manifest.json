@@ -1,0 +1,477 @@
+{
+  "title": "ASTRA Cloud-Active Patch Dataset Manifest",
+  "created_at": "2026-09-13T10:10:05.269554+00:00",
+  "config": {
+    "patch_size": 256,
+    "patches_per_triplet_target": 8,
+    "variance_threshold": 200.0,
+    "train_ratio": 0.8,
+    "seed": 42
+  },
+  "summary": {
+    "total_triplets": 2,
+    "train_triplets_count": 1,
+    "val_triplets_count": 1,
+    "total_patches": 16,
+    "train_patches": 8,
+    "val_patches": 8
+  },
+  "triplets": {
+    "train": [
+      "2024-01-15_00"
+    ],
+    "val": [
+      "2024-01-01_18"
+    ]
+  },
+  "patches": [
+    {
+      "patch_id": "2024-01-15_00_patch_000",
+      "triplet_id": "2024-01-15_00",
+      "split": "train",
+      "bbox": [
+        860,
+        3772,
+        1116,
+        4028
+      ],
+      "center": [
+        988.0,
+        3900.0
+      ],
+      "variance": {
+        "t0": 1109.25,
+        "t_mid": 1238.22,
+        "t1": 1269.98,
+        "min_var": 1109.25
+      },
+      "files": {
+        "t0": "train\\2024-01-15_00\\patch_000_t0.npy",
+        "t_mid": "train\\2024-01-15_00\\patch_000_t_mid.npy",
+        "t1": "train\\2024-01-15_00\\patch_000_t1.npy",
+        "stack": "train\\2024-01-15_00\\patch_000_stack.npy",
+        "preview": "train\\2024-01-15_00\\patch_000_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-15_00_patch_001",
+      "triplet_id": "2024-01-15_00",
+      "split": "train",
+      "bbox": [
+        3171,
+        2919,
+        3427,
+        3175
+      ],
+      "center": [
+        3299.0,
+        3047.0
+      ],
+      "variance": {
+        "t0": 3000.56,
+        "t_mid": 3073.59,
+        "t1": 2887.85,
+        "min_var": 2887.85
+      },
+      "files": {
+        "t0": "train\\2024-01-15_00\\patch_001_t0.npy",
+        "t_mid": "train\\2024-01-15_00\\patch_001_t_mid.npy",
+        "t1": "train\\2024-01-15_00\\patch_001_t1.npy",
+        "stack": "train\\2024-01-15_00\\patch_001_stack.npy",
+        "preview": "train\\2024-01-15_00\\patch_001_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-15_00_patch_002",
+      "triplet_id": "2024-01-15_00",
+      "split": "train",
+      "bbox": [
+        769,
+        2391,
+        1025,
+        2647
+      ],
+      "center": [
+        897.0,
+        2519.0
+      ],
+      "variance": {
+        "t0": 1050.48,
+        "t_mid": 1152.88,
+        "t1": 1138.76,
+        "min_var": 1050.48
+      },
+      "files": {
+        "t0": "train\\2024-01-15_00\\patch_002_t0.npy",
+        "t_mid": "train\\2024-01-15_00\\patch_002_t_mid.npy",
+        "t1": "train\\2024-01-15_00\\patch_002_t1.npy",
+        "stack": "train\\2024-01-15_00\\patch_002_stack.npy",
+        "preview": "train\\2024-01-15_00\\patch_002_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-15_00_patch_003",
+      "triplet_id": "2024-01-15_00",
+      "split": "train",
+      "bbox": [
+        2433,
+        5051,
+        2689,
+        5307
+      ],
+      "center": [
+        2561.0,
+        5179.0
+      ],
+      "variance": {
+        "t0": 1137.38,
+        "t_mid": 1193.0,
+        "t1": 1153.05,
+        "min_var": 1137.38
+      },
+      "files": {
+        "t0": "train\\2024-01-15_00\\patch_003_t0.npy",
+        "t_mid": "train\\2024-01-15_00\\patch_003_t_mid.npy",
+        "t1": "train\\2024-01-15_00\\patch_003_t1.npy",
+        "stack": "train\\2024-01-15_00\\patch_003_stack.npy",
+        "preview": "train\\2024-01-15_00\\patch_003_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-15_00_patch_004",
+      "triplet_id": "2024-01-15_00",
+      "split": "train",
+      "bbox": [
+        1184,
+        4555,
+        1440,
+        4811
+      ],
+      "center": [
+        1312.0,
+        4683.0
+      ],
+      "variance": {
+        "t0": 4136.38,
+        "t_mid": 4428.2,
+        "t1": 4383.33,
+        "min_var": 4136.38
+      },
+      "files": {
+        "t0": "train\\2024-01-15_00\\patch_004_t0.npy",
+        "t_mid": "train\\2024-01-15_00\\patch_004_t_mid.npy",
+        "t1": "train\\2024-01-15_00\\patch_004_t1.npy",
+        "stack": "train\\2024-01-15_00\\patch_004_stack.npy",
+        "preview": "train\\2024-01-15_00\\patch_004_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-15_00_patch_005",
+      "triplet_id": "2024-01-15_00",
+      "split": "train",
+      "bbox": [
+        3385,
+        4117,
+        3641,
+        4373
+      ],
+      "center": [
+        3513.0,
+        4245.0
+      ],
+      "variance": {
+        "t0": 2656.51,
+        "t_mid": 2770.78,
+        "t1": 2600.0,
+        "min_var": 2600.0
+      },
+      "files": {
+        "t0": "train\\2024-01-15_00\\patch_005_t0.npy",
+        "t_mid": "train\\2024-01-15_00\\patch_005_t_mid.npy",
+        "t1": "train\\2024-01-15_00\\patch_005_t1.npy",
+        "stack": "train\\2024-01-15_00\\patch_005_stack.npy",
+        "preview": "train\\2024-01-15_00\\patch_005_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-15_00_patch_006",
+      "triplet_id": "2024-01-15_00",
+      "split": "train",
+      "bbox": [
+        4843,
+        2904,
+        5099,
+        3160
+      ],
+      "center": [
+        4971.0,
+        3032.0
+      ],
+      "variance": {
+        "t0": 637.57,
+        "t_mid": 674.1,
+        "t1": 652.07,
+        "min_var": 637.57
+      },
+      "files": {
+        "t0": "train\\2024-01-15_00\\patch_006_t0.npy",
+        "t_mid": "train\\2024-01-15_00\\patch_006_t_mid.npy",
+        "t1": "train\\2024-01-15_00\\patch_006_t1.npy",
+        "stack": "train\\2024-01-15_00\\patch_006_stack.npy",
+        "preview": "train\\2024-01-15_00\\patch_006_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-15_00_patch_007",
+      "triplet_id": "2024-01-15_00",
+      "split": "train",
+      "bbox": [
+        1806,
+        189,
+        2062,
+        445
+      ],
+      "center": [
+        1934.0,
+        317.0
+      ],
+      "variance": {
+        "t0": 1715.9,
+        "t_mid": 1843.07,
+        "t1": 1829.51,
+        "min_var": 1715.9
+      },
+      "files": {
+        "t0": "train\\2024-01-15_00\\patch_007_t0.npy",
+        "t_mid": "train\\2024-01-15_00\\patch_007_t_mid.npy",
+        "t1": "train\\2024-01-15_00\\patch_007_t1.npy",
+        "stack": "train\\2024-01-15_00\\patch_007_stack.npy",
+        "preview": "train\\2024-01-15_00\\patch_007_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-01_18_patch_000",
+      "triplet_id": "2024-01-01_18",
+      "split": "val",
+      "bbox": [
+        2734,
+        3005,
+        2990,
+        3261
+      ],
+      "center": [
+        2862.0,
+        3133.0
+      ],
+      "variance": {
+        "t0": 2625.43,
+        "t_mid": 2684.4,
+        "t1": 2693.53,
+        "min_var": 2625.43
+      },
+      "files": {
+        "t0": "val\\2024-01-01_18\\patch_000_t0.npy",
+        "t_mid": "val\\2024-01-01_18\\patch_000_t_mid.npy",
+        "t1": "val\\2024-01-01_18\\patch_000_t1.npy",
+        "stack": "val\\2024-01-01_18\\patch_000_stack.npy",
+        "preview": "val\\2024-01-01_18\\patch_000_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-01_18_patch_001",
+      "triplet_id": "2024-01-01_18",
+      "split": "val",
+      "bbox": [
+        1267,
+        1528,
+        1523,
+        1784
+      ],
+      "center": [
+        1395.0,
+        1656.0
+      ],
+      "variance": {
+        "t0": 873.82,
+        "t_mid": 897.72,
+        "t1": 924.92,
+        "min_var": 873.82
+      },
+      "files": {
+        "t0": "val\\2024-01-01_18\\patch_001_t0.npy",
+        "t_mid": "val\\2024-01-01_18\\patch_001_t_mid.npy",
+        "t1": "val\\2024-01-01_18\\patch_001_t1.npy",
+        "stack": "val\\2024-01-01_18\\patch_001_stack.npy",
+        "preview": "val\\2024-01-01_18\\patch_001_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-01_18_patch_002",
+      "triplet_id": "2024-01-01_18",
+      "split": "val",
+      "bbox": [
+        3202,
+        3556,
+        3458,
+        3812
+      ],
+      "center": [
+        3330.0,
+        3684.0
+      ],
+      "variance": {
+        "t0": 2380.47,
+        "t_mid": 2367.88,
+        "t1": 2330.48,
+        "min_var": 2330.48
+      },
+      "files": {
+        "t0": "val\\2024-01-01_18\\patch_002_t0.npy",
+        "t_mid": "val\\2024-01-01_18\\patch_002_t_mid.npy",
+        "t1": "val\\2024-01-01_18\\patch_002_t1.npy",
+        "stack": "val\\2024-01-01_18\\patch_002_stack.npy",
+        "preview": "val\\2024-01-01_18\\patch_002_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-01_18_patch_003",
+      "triplet_id": "2024-01-01_18",
+      "split": "val",
+      "bbox": [
+        3890,
+        646,
+        4146,
+        902
+      ],
+      "center": [
+        4018.0,
+        774.0
+      ],
+      "variance": {
+        "t0": 437.25,
+        "t_mid": 427.58,
+        "t1": 419.52,
+        "min_var": 419.52
+      },
+      "files": {
+        "t0": "val\\2024-01-01_18\\patch_003_t0.npy",
+        "t_mid": "val\\2024-01-01_18\\patch_003_t_mid.npy",
+        "t1": "val\\2024-01-01_18\\patch_003_t1.npy",
+        "stack": "val\\2024-01-01_18\\patch_003_stack.npy",
+        "preview": "val\\2024-01-01_18\\patch_003_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-01_18_patch_004",
+      "triplet_id": "2024-01-01_18",
+      "split": "val",
+      "bbox": [
+        2888,
+        2435,
+        3144,
+        2691
+      ],
+      "center": [
+        3016.0,
+        2563.0
+      ],
+      "variance": {
+        "t0": 1162.64,
+        "t_mid": 1246.1,
+        "t1": 1325.69,
+        "min_var": 1162.64
+      },
+      "files": {
+        "t0": "val\\2024-01-01_18\\patch_004_t0.npy",
+        "t_mid": "val\\2024-01-01_18\\patch_004_t_mid.npy",
+        "t1": "val\\2024-01-01_18\\patch_004_t1.npy",
+        "stack": "val\\2024-01-01_18\\patch_004_stack.npy",
+        "preview": "val\\2024-01-01_18\\patch_004_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-01_18_patch_005",
+      "triplet_id": "2024-01-01_18",
+      "split": "val",
+      "bbox": [
+        2061,
+        241,
+        2317,
+        497
+      ],
+      "center": [
+        2189.0,
+        369.0
+      ],
+      "variance": {
+        "t0": 451.79,
+        "t_mid": 463.21,
+        "t1": 468.01,
+        "min_var": 451.79
+      },
+      "files": {
+        "t0": "val\\2024-01-01_18\\patch_005_t0.npy",
+        "t_mid": "val\\2024-01-01_18\\patch_005_t_mid.npy",
+        "t1": "val\\2024-01-01_18\\patch_005_t1.npy",
+        "stack": "val\\2024-01-01_18\\patch_005_stack.npy",
+        "preview": "val\\2024-01-01_18\\patch_005_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-01_18_patch_006",
+      "triplet_id": "2024-01-01_18",
+      "split": "val",
+      "bbox": [
+        775,
+        4014,
+        1031,
+        4270
+      ],
+      "center": [
+        903.0,
+        4142.0
+      ],
+      "variance": {
+        "t0": 850.16,
+        "t_mid": 844.74,
+        "t1": 841.89,
+        "min_var": 841.89
+      },
+      "files": {
+        "t0": "val\\2024-01-01_18\\patch_006_t0.npy",
+        "t_mid": "val\\2024-01-01_18\\patch_006_t_mid.npy",
+        "t1": "val\\2024-01-01_18\\patch_006_t1.npy",
+        "stack": "val\\2024-01-01_18\\patch_006_stack.npy",
+        "preview": "val\\2024-01-01_18\\patch_006_preview.png"
+      }
+    },
+    {
+      "patch_id": "2024-01-01_18_patch_007",
+      "triplet_id": "2024-01-01_18",
+      "split": "val",
+      "bbox": [
+        3943,
+        3073,
+        4199,
+        3329
+      ],
+      "center": [
+        4071.0,
+        3201.0
+      ],
+      "variance": {
+        "t0": 1189.42,
+        "t_mid": 1170.61,
+        "t1": 1145.02,
+        "min_var": 1145.02
+      },
+      "files": {
+        "t0": "val\\2024-01-01_18\\patch_007_t0.npy",
+        "t_mid": "val\\2024-01-01_18\\patch_007_t_mid.npy",
+        "t1": "val\\2024-01-01_18\\patch_007_t1.npy",
+        "stack": "val\\2024-01-01_18\\patch_007_stack.npy",
+        "preview": "val\\2024-01-01_18\\patch_007_preview.png"
+      }
+    }
+  ]
+}

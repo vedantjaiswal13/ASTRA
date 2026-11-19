@@ -1,0 +1,41 @@
+# ==============================================================================
+# File: .gitignore
+# Purpose: Specifies intentionally untracked files that Git should ignore.
+# ==============================================================================
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+
+# Distribution / Packaging
+build/
+dist/
+*.egg-info/
+
+# Environment Variables & Secrets
+.env
+.env.local
+*.env
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Processing Outputs & Data Cache
+data/raw/
+data/processed/
+*.nc
+*.tif
+*.tiff

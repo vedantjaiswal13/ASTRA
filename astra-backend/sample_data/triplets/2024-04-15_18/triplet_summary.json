@@ -1,0 +1,35 @@
+{
+  "triplet_id": "2024-04-15_18",
+  "date": "2024-04-15",
+  "hour": 18,
+  "year": 2024,
+  "day_of_year": 106,
+  "channel": 13,
+  "directory": "D:\\ASTRA\\astra-project\\astra-backend\\sample_data\\triplets\\2024-04-15_18",
+  "files": {
+    "t0": {
+      "label": "scan_0_start",
+      "npy_path": "D:\\ASTRA\\astra-project\\astra-backend\\sample_data\\triplets\\2024-04-15_18\\00_scan_0_start_OR_ABI-L2-CMIPF-M6C13_G16_s20241061800202_e20241061809522_c20241061809594.npy",
+      "png_path": "D:\\ASTRA\\astra-project\\astra-backend\\sample_data\\triplets\\2024-04-15_18\\00_scan_0_start_OR_ABI-L2-CMIPF-M6C13_G16_s20241061800202_e20241061809522_c20241061809594.png",
+      "json_path": "D:\\ASTRA\\astra-project\\astra-backend\\sample_data\\triplets\\2024-04-15_18\\00_scan_0_start_OR_ABI-L2-CMIPF-M6C13_G16_s20241061800202_e20241061809522_c20241061809594_meta.json",
+      "timestamp": "2024-04-15T18:00:20.2Z",
+      "source_file": "OR_ABI-L2-CMIPF-M6C13_G16_s20241061800202_e20241061809522_c20241061809594.nc"
+    },
+    "t_mid": {
+      "label": "scan_1_halfway",
+      "npy_path": "D:\\ASTRA\\astra-project\\astra-backend\\sample_data\\triplets\\2024-04-15_18\\01_scan_1_halfway_OR_ABI-L2-CMIPF-M6C13_G16_s20241061810202_e20241061819522_c20241061819587.npy",
+      "png_path": "D:\\ASTRA\\astra-project\\astra-backend\\sample_data\\triplets\\2024-04-15_18\\01_scan_1_halfway_OR_ABI-L2-CMIPF-M6C13_G16_s20241061810202_e20241061819522_c20241061819587.png",
+      "json_path": "D:\\ASTRA\\astra-project\\astra-backend\\sample_data\\triplets\\2024-04-15_18\\01_scan_1_halfway_OR_ABI-L2-CMIPF-M6C13_G16_s20241061810202_e20241061819522_c20241061819587_meta.json",
+      "timestamp": "2024-04-15T18:10:20.2Z",
+      "source_file": "OR_ABI-L2-CMIPF-M6C13_G16_s20241061810202_e20241061819522_c20241061819587.nc"
+    },
+    "t1": {
+      "label": "scan_2_end",
+      "npy_path": "D:\\ASTRA\\astra-project\\astra-backend\\sample_data\\triplets\\2024-04-15_18\\02_scan_2_end_OR_ABI-L2-CMIPF-M6C13_G16_s20241061820202_e20241061829522_c20241061830001.npy",
+      "png_path": "D:\\ASTRA\\astra-project\\astra-backend\\sample_data\\triplets\\2024-04-15_18\\02_scan_2_end_OR_ABI-L2-CMIPF-M6C13_G16_s20241061820202_e20241061829522_c20241061830001.png",
+      "json_path": "D:\\ASTRA\\astra-project\\astra-backend\\sample_data\\triplets\\2024-04-15_18\\02_scan_2_end_OR_ABI-L2-CMIPF-M6C13_G16_s20241061820202_e20241061829522_c20241061830001_meta.json",
+      "timestamp": "2024-04-15T18:20:20.2Z",
+      "source_file": "OR_ABI-L2-CMIPF-M6C13_G16_s20241061820202_e20241061829522_c20241061830001.nc"
+    }
+  }
+}
