@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>ASTRA - Satellite Frame Reconstruction Workbench</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+  
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .split-slider-container {
+      user-select: none;
+      touch-action: none;
+    }
+  </style>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-surface-variant": "#b9cacb",
+            "primary-fixed": "#7df4ff",
+            "on-primary-fixed": "#002022",
+            "on-secondary-fixed-variant": "#004c69",
+            "surface-container-low": "#131a33",
+            "inverse-surface": "#dbe1ff",
+            "on-error": "#690005",
+            "surface": "#0a122a",
+            "inverse-primary": "#006970",
+            "surface-container": "#171e37",
+            "background": "#060b19",
+            "error-container": "#93000a",
+            "primary": "#dbfcff",
+            "tertiary-fixed-dim": "#93ccff",
+            "on-background": "#dbe1ff",
+            "on-surface": "#dbe1ff",
+            "secondary-fixed-dim": "#7bd0ff",
+            "on-tertiary-container": "#006498",
+            "on-secondary-fixed": "#001e2c",
+            "on-secondary-container": "#00374d",
+            "tertiary-fixed": "#cce5ff",
+            "surface-container-highest": "#2c344d",
+            "on-primary-fixed-variant": "#004f54",
+            "secondary-container": "#00a6e0",
+            "tertiary": "#f0f6ff",
+            "on-primary": "#00363a",
+            "secondary": "#7bd0ff",
+            "surface-container-high": "#212942",
+            "on-error-container": "#ffdad6",
+            "surface-tint": "#00dbe9",
+            "on-primary-container": "#006970",
+            "on-tertiary": "#003351",
+            "on-tertiary-fixed": "#001d31",
+            "error": "#ffb4ab",
+            "surface-bright": "#313852",
+            "secondary-fixed": "#c4e7ff",
+            "surface-variant": "#2c344d",
+            "primary-container": "#00f0ff",
+            "inverse-on-surface": "#282f49",
+            "outline-variant": "#273248",
+            "primary-fixed-dim": "#00dbe9",
+            "on-tertiary-fixed-variant": "#004b73",
+            "surface-dim": "#0a122a",
+            "outline": "#5a6a7e",
+            "on-secondary": "#00354a",
+            "tertiary-container": "#baddff",
+            "surface-container-lowest": "#040814"
+          },
+          fontFamily: {
+            "body-lg": ["Inter"],
+            "label-md": ["JetBrains Mono"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "label-sm": ["JetBrains Mono"],
+            "label-lg": ["JetBrains Mono"],
+            "body-md": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"],
+            "headline-sm": ["Plus Jakarta Sans"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen">
+
+<!-- Left Navigation Bar -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest/95 backdrop-blur-xl z-50 flex flex-col border-r border-outline-variant/40">
+  <div class="h-16 px-5 flex items-center justify-between border-b border-outline-variant/30">
+    <div class="flex items-center gap-3">
+      <div class="w-7 h-7 rounded bg-surface-container-high flex items-center justify-center border border-primary-container/20">
+        <span class="material-symbols-outlined text-primary-container text-[18px]">satellite_alt</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="font-headline-sm text-sm tracking-wider uppercase text-primary font-bold leading-none">ASTRA</span>
+        <span class="font-label-sm text-[10px] tracking-widest text-on-surface-variant/70 leading-tight">RESEARCH WORKBENCH</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="px-4 py-3 border-b border-outline-variant/20">
+    <span class="font-label-sm text-[10px] uppercase tracking-wider text-outline block">Active Sensor Stream</span>
+    <div class="mt-1.5 font-label-sm text-xs text-primary font-mono flex items-center gap-2">
+      <span id="backend-status-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+      <span id="backend-status-text">Connecting to API...</span>
+    </div>
+  </div>
+
+  <nav class="flex-1 px-3 py-4 space-y-1">
+    <a aria-current="page" class="flex items-center gap-3 px-3 py-2 rounded bg-primary-container/15 text-primary-container font-label-md text-xs font-medium border border-primary-container/30 transition-colors" href="#">
+      <span class="material-symbols-outlined text-[18px]">compare</span>
+      Frame Reconstruction
+    </a>
+    <a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface transition-colors font-label-md text-xs" href="#">
+      <span class="material-symbols-outlined text-[18px]">timeline</span>
+      Temporal Sequences
+    </a>
+    <a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface transition-colors font-label-md text-xs" href="#">
+      <span class="material-symbols-outlined text-[18px]">difference</span>
+      Residual Analysis
+    </a>
+    <a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-high/50 hover:text-on-surface transition-colors font-label-md text-xs" href="#">
+      <span class="material-symbols-outlined text-[18px]">query_stats</span>
+      Benchmark Logs
+    </a>
+  </nav>
+
+  <div class="p-4 border-t border-outline-variant/30 font-mono text-[11px] text-on-surface-variant/70 space-y-1">
+    <div class="flex justify-between">
+      <span>API Host:</span>
+      <span class="text-primary-fixed">localhost:8000</span>
+    </div>
+    <div class="flex justify-between">
+      <span>Channel:</span>
+      <span class="text-secondary">Band 13 (Clean IR)</span>
+    </div>
+  </div>
+</aside>
+
+<!-- Main Content Shell -->
+<div class="pl-64">
+  <!-- Top Bar -->
+  <header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 flex items-center justify-between px-6 border-b border-outline-variant/40">
+    <div class="flex items-center gap-5">
+      <div class="flex items-center gap-2 bg-surface-container/70 border border-outline-variant/40 px-3 py-1.5 rounded">
+        <span class="font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wide">SENSOR:</span>
+        <span class="text-primary font-label-md text-xs font-mono font-semibold">NOAA GOES-16 ABI / Band 13 (10.35 µm)</span>
+      </div>
+      <div class="flex items-center gap-2 font-label-md text-xs bg-surface-container/70 border border-outline-variant/40 px-3 py-1.5 rounded text-on-surface font-mono">
+        <span class="material-symbols-outlined text-secondary text-[15px]">schedule</span>
+        <span class="text-on-surface-variant">SCAN UTC:</span>
+        <span id="top-timestamp" class="font-semibold text-primary-fixed">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Mode & Workbench Settings Controls -->
+    <div class="flex items-center gap-4">
+      <!-- Interpolation Algorithm Mode Selector -->
+      <div class="flex items-center gap-1 bg-surface-container-lowest border border-outline-variant/50 p-1 rounded">
+        <span class="font-label-sm text-[10px] uppercase text-outline px-2">METHOD:</span>
+        <button id="btn-method-optical" class="px-2.5 py-1 rounded bg-primary-container text-on-primary-container font-label-md text-xs font-semibold shadow-sm transition-all">
+          Optical Flow
+        </button>
+        <button id="btn-method-linear" class="px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-xs transition-all">
+          Linear Interpolation
+        </button>
+      </div>
+
+      <!-- Flow Engine Selector (Farneback vs RAFT vs Refinement vs Linear) -->
+      <div class="flex items-center gap-1 bg-surface-container-lowest border border-outline-variant/50 p-1 rounded">
+        <span class="font-label-sm text-[10px] uppercase text-outline px-2">FLOW ENGINE:</span>
+        <select id="select-flow-method" class="bg-surface-container text-primary font-label-md text-xs font-semibold px-2.5 py-1 rounded border border-outline-variant/40 focus:outline-none focus:ring-1 focus:ring-primary-container appearance-none cursor-pointer">
+          <option value="farneback" selected>Optical Flow (Farneback)</option>
+          <option value="raft">Deep Flow (RAFT)</option>
+          <option value="raft_refined">Deep Flow + U-Net Refinement</option>
+          <option value="linear">Linear Interpolation Baseline</option>
+        </select>
+      </div>
+
+      <!-- Action Button: Generate -->
+      <button id="btn-generate" class="flex items-center gap-2 bg-primary-container text-on-primary-container hover:brightness-110 px-4 py-1.5 rounded font-label-md text-xs font-bold shadow-md transition-all">
+        <span id="generate-icon" class="material-symbols-outlined text-[16px]">play_arrow</span>
+        <span id="generate-text">Generate Frame</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="relative pt-16 bg-background w-full min-h-screen p-6 flex flex-col gap-6">
+    
+    <!-- Section 1: Main Three-Panel Temporal Trio Comparison -->
+    <div class="bg-surface/80 backdrop-blur-md rounded-xl border border-outline-variant/40 p-5 shadow-lg flex flex-col gap-4">
+      <div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary-container text-[18px]">view_column</span>
+          <h2 class="font-headline-sm text-sm font-semibold text-primary tracking-wide uppercase">Temporal Keyframe Interpolation Trio</h2>
+          <span id="scan-interval-badge" class="font-label-sm text-[11px] text-outline font-mono">GOES-16 ABI Scans</span>
+        </div>
+        
+        <!-- Viewport Tools -->
+        <div class="flex items-center gap-2 font-mono text-xs">
+          <button id="btn-refresh" class="flex items-center gap-1 bg-surface-container px-2.5 py-1 rounded border border-outline-variant/30 text-on-surface-variant hover:text-primary transition-colors text-[11px]" title="Reload Data">
+            <span class="material-symbols-outlined text-[14px]">refresh</span>
+            <span>Reload</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3-Column Viewport Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        
+        <!-- Viewport 1: Observed T0 -->
+        <div class="flex flex-col bg-surface-container-lowest rounded-lg border border-outline-variant/40 overflow-hidden group">
+          <div class="flex items-center justify-between px-3 py-2 bg-surface-container-low border-b border-outline-variant/30">
+            <div class="flex items-center gap-2 font-mono">
+              <span class="px-1.5 py-0.5 rounded bg-surface-container-high text-secondary text-[10px] font-semibold">T₀ OBSERVED</span>
+              <span id="label-t0-time" class="text-xs text-on-surface font-semibold">Loading...</span>
+            </div>
+            <span class="text-[10px] font-mono text-outline">Start Scan</span>
+          </div>
+          <div class="relative aspect-square bg-surface-dim overflow-hidden flex items-center justify-center">
+            <div id="loader-t0" class="absolute inset-0 flex items-center justify-center bg-surface-dim/80 z-10">
+              <span class="material-symbols-outlined text-primary-container text-3xl animate-spin">sync</span>
+            </div>
+            <img id="img-t0" class="w-full h-full object-cover hidden" alt="GOES-16 T0 Observed Scan"/>
+            <div class="absolute inset-0 pointer-events-none flex flex-col justify-between p-2">
+              <div class="flex justify-between font-mono text-[9px] text-outline/80">
+                <span id="overlay-t0-source">GOES-16 Band 13</span>
+                <span>T₀ KEYFRAME</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-2.5 bg-surface-container-low/60 flex items-center justify-between font-mono text-[11px] text-on-surface-variant">
+            <span>Product: ABI-L2-CMIPF</span>
+            <span id="badge-t0-dim" class="text-secondary font-medium">--</span>
+          </div>
+        </div>
+
+        <!-- Viewport 2: Generated Intermediate (t = 0.500) -->
+        <div class="flex flex-col bg-surface-container-lowest rounded-lg border-2 border-primary-container/60 shadow-[0_0_16px_rgba(0,240,255,0.1)] overflow-hidden group">
+          <div class="flex items-center justify-between px-3 py-2 bg-surface-container border-b border-primary-container/30">
+            <div class="flex items-center gap-2 font-mono">
+              <span class="px-1.5 py-0.5 rounded bg-primary-container text-on-primary-container text-[10px] font-bold tracking-wide">GENERATED</span>
+              <span id="label-gen-time" class="text-xs text-primary font-semibold">t = 0.50</span>
+            </div>
+            <span id="label-gen-fraction" class="text-[10px] font-mono text-primary-container font-semibold">Active Synth</span>
+          </div>
+          <div class="relative aspect-square bg-surface-dim overflow-hidden flex items-center justify-center">
+            <div id="loader-gen" class="absolute inset-0 flex items-center justify-center bg-surface-dim/80 z-10">
+              <span class="material-symbols-outlined text-primary-container text-3xl animate-spin">sync</span>
+            </div>
+            <img id="img-gen" class="w-full h-full object-cover hidden" alt="Synthesized Intermediate Frame"/>
+            
+            <!-- Crosshair Center Overlay -->
+            <div class="absolute inset-0 pointer-events-none flex items-center justify-center">
+              <div class="w-8 h-8 border border-primary-container/40 rounded-full flex items-center justify-center">
+                <div class="w-1 h-1 bg-primary-container rounded-full"></div>
+              </div>
+            </div>
+            <div class="absolute inset-0 pointer-events-none border border-primary-container/20 flex flex-col justify-between p-2">
+              <div class="flex justify-between font-mono text-[9px] text-primary-container/80">
+                <span id="overlay-gen-method">METHOD: OPTICAL FLOW</span>
+                <span id="overlay-gen-step">INTERPOLATED</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-2.5 bg-surface-container-low/60 flex items-center justify-between font-mono text-[11px]">
+            <span id="label-active-method-info" class="text-on-surface-variant">Method: Farneback Optical Flow</span>
+            <span id="badge-gen-psnr" class="text-primary-container font-semibold">PSNR: -- dB</span>
+          </div>
+        </div>
+
+        <!-- Viewport 3: Observed T1 -->
+        <div class="flex flex-col bg-surface-container-lowest rounded-lg border border-outline-variant/40 overflow-hidden group">
+          <div class="flex items-center justify-between px-3 py-2 bg-surface-container-low border-b border-outline-variant/30">
+            <div class="flex items-center gap-2 font-mono">
+              <span class="px-1.5 py-0.5 rounded bg-surface-container-high text-secondary text-[10px] font-semibold">T₁ OBSERVED</span>
+              <span id="label-t1-time" class="text-xs text-on-surface font-semibold">Loading...</span>
+            </div>
+            <span class="text-[10px] font-mono text-outline">Target Scan</span>
+          </div>
+          <div class="relative aspect-square bg-surface-dim overflow-hidden flex items-center justify-center">
+            <div id="loader-t1" class="absolute inset-0 flex items-center justify-center bg-surface-dim/80 z-10">
+              <span class="material-symbols-outlined text-primary-container text-3xl animate-spin">sync</span>
+            </div>
+            <img id="img-t1" class="w-full h-full object-cover hidden" alt="GOES-16 T1 Observed Scan"/>
+            <div class="absolute inset-0 pointer-events-none flex flex-col justify-between p-2">
+              <div class="flex justify-between font-mono text-[9px] text-outline/80">
+                <span id="overlay-t1-source">GOES-16 Band 13</span>
+                <span>T₁ KEYFRAME</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-2.5 bg-surface-container-low/60 flex items-center justify-between font-mono text-[11px] text-on-surface-variant">
+            <span>Product: ABI-L2-CMIPF</span>
+            <span id="badge-t1-dim" class="text-secondary font-medium">--</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Temporal Sub-Frame Stepper / Scrubber Line -->
+      <div class="bg-surface-container-lowest px-4 py-3 rounded-lg border border-outline-variant/30 flex items-center gap-4">
+        <div class="flex items-center gap-1 font-mono text-xs">
+          <button id="btn-step-prev" class="w-7 h-7 rounded bg-surface-container hover:bg-surface-bright flex items-center justify-center text-on-surface transition-colors" title="Previous Step (t - 0.25)">
+            <span class="material-symbols-outlined text-[16px]">skip_previous</span>
+          </button>
+          <button id="btn-play-toggle" class="w-7 h-7 rounded bg-primary-container text-on-primary-container hover:brightness-110 flex items-center justify-center font-bold transition-all" title="Toggle Auto-Animation">
+            <span id="play-icon" class="material-symbols-outlined text-[16px]">play_arrow</span>
+          </button>
+          <button id="btn-step-next" class="w-7 h-7 rounded bg-surface-container hover:bg-surface-bright flex items-center justify-center text-on-surface transition-colors" title="Next Step (t + 0.25)">
+            <span class="material-symbols-outlined text-[16px]">skip_next</span>
+          </button>
+        </div>
+
+        <div class="flex-1 relative flex items-center h-6">
+          <input id="time-slider" type="range" min="0" max="1" step="0.05" value="0.5" class="w-full accent-primary-container cursor-pointer z-20 opacity-0 absolute inset-0"/>
+          
+          <div class="w-full h-1.5 bg-surface-container-highest rounded-full pointer-events-none relative">
+            <div id="slider-progress-bar" class="absolute left-0 top-0 h-full bg-primary-container rounded-full" style="width: 50%;"></div>
+          </div>
+
+          <!-- Stepper Node Markers -->
+          <div class="absolute left-0 -translate-x-1/2 flex flex-col items-center pointer-events-none">
+            <div class="w-2.5 h-2.5 rounded-sm bg-secondary"></div>
+            <span class="font-mono text-[9px] text-secondary mt-1">t=0.00</span>
+          </div>
+          <div class="absolute left-1/4 -translate-x-1/2 flex flex-col items-center pointer-events-none">
+            <div id="node-025" class="w-2 h-2 rounded-full bg-surface-variant"></div>
+            <span class="font-mono text-[9px] text-outline mt-1">t=0.25</span>
+          </div>
+          <div class="absolute left-2/4 -translate-x-1/2 flex flex-col items-center pointer-events-none">
+            <div id="node-050" class="w-3.5 h-3.5 rounded-full bg-primary-container ring-2 ring-primary-container/40"></div>
+            <span id="label-node-050" class="font-mono text-[9px] text-primary-container font-bold mt-1">t=0.50</span>
+          </div>
+          <div class="absolute left-3/4 -translate-x-1/2 flex flex-col items-center pointer-events-none">
+            <div id="node-075" class="w-2 h-2 rounded-full bg-surface-variant"></div>
+            <span class="font-mono text-[9px] text-outline mt-1">t=0.75</span>
+          </div>
+          <div class="absolute right-0 translate-x-1/2 flex flex-col items-center pointer-events-none">
+            <div class="w-2.5 h-2.5 rounded-sm bg-secondary"></div>
+            <span class="font-mono text-[9px] text-secondary mt-1">t=1.00</span>
+          </div>
+        </div>
+
+        <div class="font-mono text-[11px] text-on-surface-variant pl-4">
+          Fraction: <span id="label-slider-val" class="text-primary font-bold">t = 0.50</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Ground Truth Direct Verification & Error Residual Heatmap -->
+    <div class="bg-surface/80 backdrop-blur-md rounded-xl border border-outline-variant/40 p-5 shadow-lg flex flex-col gap-4">
+      <div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[18px]">split_scene</span>
+          <h2 class="font-headline-sm text-sm font-semibold text-primary tracking-wide uppercase">Ground Truth Direct Evaluation &amp; Residual Inspector</h2>
+        </div>
+        <div class="font-mono text-xs text-on-surface-variant flex items-center gap-3">
+          <span>Confidence Scale: Low (Purple) to High (Green/Yellow)</span>
+          <div class="h-2 w-28 rounded-full bg-gradient-to-r from-purple-900 via-emerald-600 to-yellow-400 border border-outline-variant/30"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Comparison View A: Generated vs Actual Interactive Split-Screen -->
+        <div class="bg-surface-container-lowest rounded-lg border border-outline-variant/40 p-3 flex flex-col gap-2">
+          <div class="flex items-center justify-between font-mono text-xs">
+            <span class="text-primary font-semibold">Generated (Reconstruction)</span>
+            <span class="text-outline">vs</span>
+            <span class="text-secondary font-semibold">Ground Truth Observation</span>
+          </div>
+          
+          <div id="split-container" class="relative aspect-[16/9] bg-surface-dim rounded overflow-hidden split-slider-container cursor-ew-resize">
+            <!-- Background Image: Ground Truth Reference -->
+            <img id="img-split-gt" class="absolute inset-0 w-full h-full object-cover" alt="Ground Truth Scan"/>
+            
+            <!-- Foreground Clipped Image: Generated Reconstruction -->
+            <div id="split-clipper" class="absolute inset-0 overflow-hidden" style="width: 50%;">
+              <img id="img-split-gen" class="absolute inset-0 w-full h-full object-cover max-w-none" style="width: 100%;" alt="Generated Frame"/>
+            </div>
+
+            <!-- Interactive Split Line & Handle -->
+            <div id="split-handle" class="absolute inset-y-0 w-0.5 bg-primary-container shadow-[0_0_8px_rgba(0,240,255,0.9)]" style="left: 50%;">
+              <div class="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-mono text-[10px] font-bold shadow-lg">
+                ↔
+              </div>
+            </div>
+
+            <span class="absolute bottom-2 left-2 px-2 py-0.5 bg-surface-container-lowest/80 font-mono text-[10px] text-primary rounded z-10 pointer-events-none">GENERATED</span>
+            <span class="absolute bottom-2 right-2 px-2 py-0.5 bg-surface-container-lowest/80 font-mono text-[10px] text-secondary rounded z-10 pointer-events-none">GROUND TRUTH</span>
+          </div>
+          
+          <div class="flex justify-between font-mono text-[11px] text-on-surface-variant pt-1">
+            <span id="label-split-method">Method: Optical Flow Warping</span>
+            <span id="label-split-ssim" class="text-primary font-semibold">SSIM Index: --</span>
+          </div>
+        </div>
+
+        <!-- Comparison View B: Error Residual / Confidence Field -->
+        <div class="bg-surface-container-lowest rounded-lg border border-outline-variant/40 p-3 flex flex-col gap-2">
+          <div class="flex items-center justify-between font-mono text-xs">
+            <span class="text-primary font-semibold">Motion Confidence &amp; Consistency Map</span>
+            <span id="label-res-method" class="text-outline text-[11px]">Viridis Representation</span>
+          </div>
+          
+          <div class="relative aspect-[16/9] bg-[#02050e] rounded overflow-hidden flex items-center justify-center border border-outline-variant/30">
+            <img id="img-confidence" class="w-full h-full object-cover" alt="Optical Flow Confidence Map"/>
+            <div class="absolute top-2 left-2 px-2 py-0.5 bg-surface-container-lowest/80 font-mono text-[10px] text-on-surface-variant rounded border border-outline-variant/30">
+              BIDIRECTIONAL CONSISTENCY
+            </div>
+            <div class="absolute bottom-2 right-2 px-2 py-0.5 bg-surface-container-lowest/80 font-mono text-[10px] text-primary-container rounded border border-outline-variant/30">
+              EXPONENTIAL RESIDUAL WEIGHTING
+            </div>
+          </div>
+          
+          <div class="flex justify-between font-mono text-[11px] text-on-surface-variant pt-1">
+            <span>High Confidence: Smooth Advection</span>
+            <span id="label-res-mae">MAE: --</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 3: Scientific Quantitative Metrics Panel -->
+    <div class="bg-surface/80 backdrop-blur-md rounded-xl border border-outline-variant/40 p-5 shadow-lg flex flex-col gap-3">
+      <div class="flex items-center justify-between pb-2 border-b border-outline-variant/30">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary-container text-[18px]">analytics</span>
+          <h2 class="font-headline-sm text-sm font-semibold text-primary tracking-wide uppercase">Evaluation Metrics</h2>
+        </div>
+        <span id="metrics-grid-info" class="font-label-sm text-[11px] text-outline font-mono">Calculated over full 2D spatial grid</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Metric 1: MSE -->
+        <div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant/40 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-xs font-mono uppercase text-on-surface-variant">MSE</span>
+            <span class="text-[10px] font-mono text-outline">Mean Squared Error</span>
+          </div>
+          <div class="my-2">
+            <div id="metric-mse" class="font-mono text-2xl font-bold text-primary tracking-tight">--</div>
+          </div>
+          <div id="metric-mse-sub" class="text-[11px] font-mono text-on-surface-variant/80 border-t border-outline-variant/20 pt-1.5">
+            L2 intensity variance
+          </div>
+        </div>
+
+        <!-- Metric 2: PSNR -->
+        <div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant/40 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-xs font-mono uppercase text-on-surface-variant">PSNR</span>
+            <span class="text-[10px] font-mono text-outline">Peak Signal-to-Noise</span>
+          </div>
+          <div class="my-2">
+            <div id="metric-psnr" class="font-mono text-2xl font-bold text-primary tracking-tight">
+              -- <span class="text-sm font-normal text-on-surface-variant">dB</span>
+            </div>
+          </div>
+          <div class="text-[11px] font-mono text-on-surface-variant/80 border-t border-outline-variant/20 pt-1.5">
+            10 · log₁₀(255² / MSE)
+          </div>
+        </div>
+
+        <!-- Metric 3: SSIM -->
+        <div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant/40 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-xs font-mono uppercase text-on-surface-variant">SSIM</span>
+            <span class="text-[10px] font-mono text-outline">Structural Similarity</span>
+          </div>
+          <div class="my-2">
+            <div id="metric-ssim" class="font-mono text-2xl font-bold text-primary tracking-tight">--</div>
+          </div>
+          <div class="text-[11px] font-mono text-on-surface-variant/80 border-t border-outline-variant/20 pt-1.5">
+            Scale [0, 1], luminance &amp; structure
+          </div>
+        </div>
+
+        <!-- Metric 4: MAE -->
+        <div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant/40 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="font-label-sm text-xs font-mono uppercase text-on-surface-variant">MAE</span>
+            <span class="text-[10px] font-mono text-outline">Mean Absolute Error</span>
+          </div>
+          <div class="my-2">
+            <div id="metric-mae" class="font-mono text-2xl font-bold text-primary tracking-tight">--</div>
+          </div>
+          <div class="text-[11px] font-mono text-on-surface-variant/80 border-t border-outline-variant/20 pt-1.5">
+            Average L1 pixel difference
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Application Logic -->
+<script>
+  const API_BASE = "http://localhost:8000";
+
+  // Application State
+  const state = {
+    method: "optical_flow", // "optical_flow" | "linear"
+    flowMethod: "farneback", // "farneback" | "raft" — sent to POST /generate as "method"
+    timeFraction: 0.5,
+    sampleData: null,
+    generatedData: null,
+    isGenerating: false,
+    isPlaying: false,
+    playInterval: null
+  };
+
+  // DOM Elements
+  const el = {
+    statusDot: document.getElementById("backend-status-dot"),
+    statusText: document.getElementById("backend-status-text"),
+    topTimestamp: document.getElementById("top-timestamp"),
+    btnMethodOptical: document.getElementById("btn-method-optical"),
+    btnMethodLinear: document.getElementById("btn-method-linear"),
+    selectFlowMethod: document.getElementById("select-flow-method"),
+    btnGenerate: document.getElementById("btn-generate"),
+    generateIcon: document.getElementById("generate-icon"),
+    generateText: document.getElementById("generate-text"),
+    btnRefresh: document.getElementById("btn-refresh"),
+    
+    // Viewport elements
+    imgT0: document.getElementById("img-t0"),
+    imgT1: document.getElementById("img-t1"),
+    imgGen: document.getElementById("img-gen"),
+    loaderT0: document.getElementById("loader-t0"),
+    loaderT1: document.getElementById("loader-t1"),
+    loaderGen: document.getElementById("loader-gen"),
+    labelT0Time: document.getElementById("label-t0-time"),
+    labelT1Time: document.getElementById("label-t1-time"),
+    labelGenTime: document.getElementById("label-gen-time"),
+    badgeT0Dim: document.getElementById("badge-t0-dim"),
+    badgeT1Dim: document.getElementById("badge-t1-dim"),
+    badgeGenPsnr: document.getElementById("badge-gen-psnr"),
+    labelActiveMethodInfo: document.getElementById("label-active-method-info"),
+    overlayGenMethod: document.getElementById("overlay-gen-method"),
+
+    // Slider / Scrubber
+    timeSlider: document.getElementById("time-slider"),
+    sliderProgressBar: document.getElementById("slider-progress-bar"),
+    labelSliderVal: document.getElementById("label-slider-val"),
+    btnStepPrev: document.getElementById("btn-step-prev"),
+    btnStepNext: document.getElementById("btn-step-next"),
+    btnPlayToggle: document.getElementById("btn-play-toggle"),
+    playIcon: document.getElementById("play-icon"),
+
+    // Split Viewer
+    splitContainer: document.getElementById("split-container"),
+    splitClipper: document.getElementById("split-clipper"),
+    splitHandle: document.getElementById("split-handle"),
+    imgSplitGen: document.getElementById("img-split-gen"),
+    imgSplitGt: document.getElementById("img-split-gt"),
+    labelSplitMethod: document.getElementById("label-split-method"),
+    labelSplitSsim: document.getElementById("label-split-ssim"),
+    imgConfidence: document.getElementById("img-confidence"),
+    labelResMae: document.getElementById("label-res-mae"),
+
+    // Metric Cards
+    metricsGridInfo: document.getElementById("metrics-grid-info"),
+    metricMse: document.getElementById("metric-mse"),
+    metricMseSub: document.getElementById("metric-mse-sub"),
+    metricPsnr: document.getElementById("metric-psnr"),
+    metricSsim: document.getElementById("metric-ssim"),
+    metricMae: document.getElementById("metric-mae")
+  };
+
+  // 1. Initialize Application
+  document.addEventListener("DOMContentLoaded", async () => {
+    setupEventListeners();
+    setupSplitSlider();
+    await fetchSamplePair();
+  });
+
+  // 2. Fetch Sample Pair on Load
+  async function fetchSamplePair() {
+    try {
+      setBackendStatus("loading", "Fetching GOES-16 Scans...");
+      
+      const res = await fetch(`${API_BASE}/sample-pair?preview_size=1024`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      
+      const data = await res.json();
+      state.sampleData = data;
+
+      // Populate T0 Viewport
+      el.imgT0.src = data.frame_t0.image;
+      el.imgT0.classList.remove("hidden");
+      el.loaderT0.classList.add("hidden");
+      el.labelT0Time.innerText = formatTimestamp(data.frame_t0.timestamp);
+      el.badgeT0Dim.innerText = `${data.raw_dimensions.width} × ${data.raw_dimensions.height} px`;
+
+      // Populate T1 Viewport
+      el.imgT1.src = data.frame_t1.image;
+      el.imgT1.classList.remove("hidden");
+      el.loaderT1.classList.add("hidden");
+      el.labelT1Time.innerText = formatTimestamp(data.frame_t1.timestamp);
+      el.badgeT1Dim.innerText = `${data.raw_dimensions.width} × ${data.raw_dimensions.height} px`;
+
+      // Top bar timestamp
+      el.topTimestamp.innerText = formatTimestamp(data.frame_t0.timestamp);
+
+      // Populate Split Ground Truth
+      if (data.ground_truth_t05) {
+        el.imgSplitGt.src = data.ground_truth_t05.image;
+      }
+
+      setBackendStatus("online", "Connected (GOES-16 Ch. 13)");
+
+      // Automatically synthesize initial frame at t=0.5
+      await generateFrame();
+
+    } catch (err) {
+      console.error("Failed to fetch sample pair:", err);
+      setBackendStatus("error", "API Offline (Check port 8000)");
+      el.loaderT0.innerHTML = `<span class="text-xs text-error font-mono px-2 text-center">Cannot connect to ${API_BASE}</span>`;
+      el.loaderT1.innerHTML = `<span class="text-xs text-error font-mono px-2 text-center">Cannot connect to ${API_BASE}</span>`;
+      el.loaderGen.innerHTML = `<span class="text-xs text-error font-mono px-2 text-center">Start FastAPI server to begin</span>`;
+    }
+  }
+
+  // 3. Generate Intermediate Frame via POST /generate
+  async function generateFrame() {
+    if (state.isGenerating) return;
+    state.isGenerating = true;
+
+    // Show loading state
+    el.loaderGen.classList.remove("hidden");
+    el.generateIcon.innerText = "sync";
+    el.generateIcon.classList.add("animate-spin");
+    el.generateText.innerText = "Processing...";
+
+    try {
+      const payload = {
+        time_fraction: parseFloat(state.timeFraction),
+        method: state.flowMethod,
+        preview_size: 1024,
+        pyr_scale: 0.5,
+        levels: 3,
+        winsize: 15,
+        iterations: 3
+      };
+
+      const res = await fetch(`${API_BASE}/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+
+      const data = await res.json();
+      state.generatedData = data;
+
+      // Update Generated Frame Image
+      const activeImage = state.method === "optical_flow" ? data.warped_image : data.linear_image;
+      el.imgGen.src = activeImage;
+      el.imgGen.classList.remove("hidden");
+      el.loaderGen.classList.add("hidden");
+
+      // Update Split View Images
+      el.imgSplitGen.src = activeImage;
+
+      // Update Confidence / Residual Map
+      el.imgConfidence.src = data.confidence_map_colored;
+
+      // Update UI Text & Badges — reflect flow_method from backend response
+      const flowLabels = {
+        "linear": "Linear Pixel Averaging",
+        "farneback": "Farneback Optical Flow",
+        "raft": "RAFT Deep Flow",
+        "raft_refined": "RAFT + U-Net Refinement"
+      };
+      const flowLabel = flowLabels[data.flow_method] || "Optical Flow";
+      el.labelGenTime.innerText = `t = ${state.timeFraction.toFixed(2)}`;
+      el.overlayGenMethod.innerText = `METHOD: ${flowLabel.toUpperCase()}`;
+      el.labelActiveMethodInfo.innerText = `Method: ${flowLabel}`;
+      el.labelSplitMethod.innerText = `Method: ${flowLabel}`;
+
+      // Update Grid Info Dimensions
+      el.metricsGridInfo.innerText = `Calculated over spatial grid (${data.dimensions.width} × ${data.dimensions.height} px)`;
+
+      // Update Metrics
+      updateMetricsDisplay(data.metrics);
+
+    } catch (err) {
+      console.error("Frame generation failed:", err);
+      el.loaderGen.innerHTML = `<span class="text-xs text-error font-mono text-center px-2">Generation error: ${err.message}</span>`;
+    } finally {
+      state.isGenerating = false;
+      el.generateIcon.innerText = "play_arrow";
+      el.generateIcon.classList.remove("animate-spin");
+      el.generateText.innerText = "Generate Frame";
+    }
+  }
+
+  // 4. Update Quantitative Metrics Display
+  function updateMetricsDisplay(metrics) {
+    if (!metrics) {
+      el.metricMse.innerText = "--";
+      el.metricPsnr.innerHTML = `-- <span class="text-sm font-normal text-on-surface-variant">dB</span>`;
+      el.metricSsim.innerText = "--";
+      el.metricMae.innerText = "--";
+      el.badgeGenPsnr.innerText = "PSNR: N/A";
+      el.labelSplitSsim.innerText = "SSIM: N/A";
+      el.labelResMae.innerText = "MAE: N/A";
+      return;
+    }
+
+    const currentMetrics = state.method === "optical_flow" ? metrics.warped : metrics.linear;
+    
+    if (currentMetrics) {
+      el.metricMse.innerText = currentMetrics.mse.toFixed(2);
+      el.metricPsnr.innerHTML = `${currentMetrics.psnr_db.toFixed(2)} <span class="text-sm font-normal text-on-surface-variant">dB</span>`;
+      el.metricSsim.innerText = currentMetrics.ssim.toFixed(4);
+      el.metricMae.innerText = currentMetrics.mae.toFixed(2);
+      
+      el.badgeGenPsnr.innerText = `PSNR: ${currentMetrics.psnr_db.toFixed(2)} dB`;
+      el.labelSplitSsim.innerText = `SSIM Index: ${currentMetrics.ssim.toFixed(4)}`;
+      el.labelResMae.innerText = `MAE: ${currentMetrics.mae.toFixed(2)}`;
+
+      if (state.method === "optical_flow" && metrics.mse_improvement_percentage) {
+        el.metricMseSub.innerText = `${metrics.mse_improvement_percentage.toFixed(1)}% error reduction vs linear`;
+        el.metricMseSub.classList.add("text-primary-container");
+      } else {
+        el.metricMseSub.innerText = "L2 intensity variance";
+        el.metricMseSub.classList.remove("text-primary-container");
+      }
+    }
+  }
+
+  // 5. Setup Event Listeners
+  function setupEventListeners() {
+    // Method Switches
+    el.btnMethodOptical.addEventListener("click", () => {
+      setMethod("optical_flow");
+    });
+    el.btnMethodLinear.addEventListener("click", () => {
+      setMethod("linear");
+    });
+
+    // Flow Method Dropdown
+    el.selectFlowMethod.addEventListener("change", (e) => {
+      state.flowMethod = e.target.value;
+    });
+
+    // Generate Button
+    el.btnGenerate.addEventListener("click", () => {
+      generateFrame();
+    });
+
+    // Refresh Button
+    el.btnRefresh.addEventListener("click", () => {
+      fetchSamplePair();
+    });
+
+    // Time Slider
+    el.timeSlider.addEventListener("input", (e) => {
+      const val = parseFloat(e.target.value);
+      setTimeFraction(val);
+    });
+    el.timeSlider.addEventListener("change", () => {
+      generateFrame();
+    });
+
+    // Step Buttons
+    el.btnStepPrev.addEventListener("click", () => {
+      const next = Math.max(0, state.timeFraction - 0.25);
+      setTimeFraction(next);
+      generateFrame();
+    });
+    el.btnStepNext.addEventListener("click", () => {
+      const next = Math.min(1, state.timeFraction + 0.25);
+      setTimeFraction(next);
+      generateFrame();
+    });
+
+    // Animation Play Toggle
+    el.btnPlayToggle.addEventListener("click", togglePlayback);
+  }
+
+  // Set Method
+  function setMethod(methodName) {
+    state.method = methodName;
+    if (methodName === "optical_flow") {
+      el.btnMethodOptical.className = "px-2.5 py-1 rounded bg-primary-container text-on-primary-container font-label-md text-xs font-semibold shadow-sm transition-all";
+      el.btnMethodLinear.className = "px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-xs transition-all";
+    } else {
+      el.btnMethodLinear.className = "px-2.5 py-1 rounded bg-primary-container text-on-primary-container font-label-md text-xs font-semibold shadow-sm transition-all";
+      el.btnMethodOptical.className = "px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-xs transition-all";
+    }
+
+    if (state.generatedData) {
+      const activeImage = methodName === "optical_flow" ? state.generatedData.warped_image : state.generatedData.linear_image;
+      el.imgGen.src = activeImage;
+      el.imgSplitGen.src = activeImage;
+      const flowLabel = state.generatedData.flow_method === "raft" ? "RAFT Deep Flow" : "Farneback Optical Flow";
+      el.overlayGenMethod.innerText = `METHOD: ${methodName === "optical_flow" ? flowLabel.toUpperCase() : "LINEAR INTERPOLATION"}`;
+      el.labelActiveMethodInfo.innerText = methodName === "optical_flow" ? `Method: ${flowLabel} Warping` : "Method: Linear Pixel Averaging Baseline";
+      el.labelSplitMethod.innerText = methodName === "optical_flow" ? `Method: ${flowLabel} Warping` : "Method: Linear Pixel Averaging";
+      updateMetricsDisplay(state.generatedData.metrics);
+    }
+  }
+
+  // Set Time Fraction
+  function setTimeFraction(val) {
+    state.timeFraction = val;
+    el.timeSlider.value = val;
+    el.sliderProgressBar.style.width = `${val * 100}%`;
+    el.labelSliderVal.innerText = `t = ${val.toFixed(2)}`;
+    el.labelGenTime.innerText = `t = ${val.toFixed(2)}`;
+  }
+
+  // Auto-Playback Loop
+  function togglePlayback() {
+    if (state.isPlaying) {
+      clearInterval(state.playInterval);
+      state.isPlaying = false;
+      el.playIcon.innerText = "play_arrow";
+      el.btnPlayToggle.classList.remove("bg-secondary", "text-on-secondary");
+      el.btnPlayToggle.classList.add("bg-primary-container", "text-on-primary-container");
+    } else {
+      state.isPlaying = true;
+      el.playIcon.innerText = "pause";
+      el.btnPlayToggle.classList.remove("bg-primary-container", "text-on-primary-container");
+      el.btnPlayToggle.classList.add("bg-secondary", "text-on-secondary");
+
+      let direction = 1;
+      state.playInterval = setInterval(async () => {
+        let next = state.timeFraction + (0.25 * direction);
+        if (next >= 1.0) { next = 1.0; direction = -1; }
+        if (next <= 0.0) { next = 0.0; direction = 1; }
+        setTimeFraction(next);
+        await generateFrame();
+      }, 1500);
+    }
+  }
+
+  // 6. Interactive Split Slider Setup
+  function setupSplitSlider() {
+    let isDragging = false;
+
+    const updateSplitPosition = (clientX) => {
+      const rect = el.splitContainer.getBoundingClientRect();
+      const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+      const percent = (x / rect.width) * 100;
+      el.splitClipper.style.width = `${percent}%`;
+      el.splitHandle.style.left = `${percent}%`;
+    };
+
+    el.splitContainer.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      updateSplitPosition(e.clientX);
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      updateSplitPosition(e.clientX);
+    });
+
+    window.addEventListener("mouseup", () => {
+      isDragging = false;
+    });
+
+    // Touch Support
+    el.splitContainer.addEventListener("touchstart", (e) => {
+      isDragging = true;
+      if (e.touches[0]) updateSplitPosition(e.touches[0].clientX);
+    }, { passive: true });
+
+    window.addEventListener("touchmove", (e) => {
+      if (!isDragging || !e.touches[0]) return;
+      updateSplitPosition(e.touches[0].clientX);
+    }, { passive: true });
+
+    window.addEventListener("touchend", () => {
+      isDragging = false;
+    });
+  }
+
+  // Status Indicator Helper
+  function setBackendStatus(type, message) {
+    el.statusText.innerText = message;
+    if (type === "online") {
+      el.statusDot.className = "w-2 h-2 rounded-full bg-emerald-400";
+    } else if (type === "loading") {
+      el.statusDot.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+    } else {
+      el.statusDot.className = "w-2 h-2 rounded-full bg-rose-500";
+    }
+  }
+
+  // Timestamp Formatter
+  function formatTimestamp(isoStr) {
+    if (!isoStr) return "N/A";
+    try {
+      const d = new Date(isoStr);
+      return isNaN(d.getTime()) ? isoStr : d.toUTCString().replace("GMT", "UTC");
+    } catch {
+      return isoStr;
+    }
+  }
+</script>
+
+</body>
+</html>

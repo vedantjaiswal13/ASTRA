@@ -1,0 +1,29 @@
+{
+  "source_file": "OR_ABI-L2-CMIPF-M6C13_G16_s20242592110206_e20242592119525_c20242592119599.nc",
+  "product": "ABI L2 Cloud and Moisture Imagery",
+  "channel": 13,
+  "channel_name": "Clean IR Longwave Window (~10.3 \u00b5m)",
+  "time_coverage_start": "2024-09-15T21:10:20.6Z",
+  "time_coverage_end": "2024-09-15T21:19:52.5Z",
+  "spatial_resolution": "y: 0.000056 rad x: 0.000056 rad",
+  "units": "K",
+  "raw_shape": [
+    5424,
+    5424
+  ],
+  "projection_info": {
+    "grid_mapping_name": "geostationary",
+    "perspective_point_height_m": 35786023.0,
+    "semi_major_axis_m": 6378137.0,
+    "semi_minor_axis_m": 6356752.31414,
+    "inverse_flattening": 298.2572221,
+    "latitude_of_projection_origin_deg": 0.0,
+    "longitude_of_projection_origin_deg": -75.0,
+    "sweep_angle_axis": "x"
+  },
+  "stats": {
+    "min_brightness_temp_kelvin": 89.62000274658203,
+    "max_brightness_temp_kelvin": 321.72918701171875,
+    "valid_pixels_count": 23045997
+  }
+}
